@@ -1,2 +1,2 @@
-# junior-v-llalati-java-backend
+# junior-vállalati-java-backend
 Junior Vállalati Java Backend képzés
