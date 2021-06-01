@@ -1,0 +1,1 @@
+create table meeting_rooms(id bigint auto_increment, room_name varchar(255), width int, length int , constraint pk_mr primary key(id))
