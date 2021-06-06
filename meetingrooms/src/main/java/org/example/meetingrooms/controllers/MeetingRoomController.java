@@ -13,6 +13,7 @@ public class MeetingRoomController {
     private final MeetingRoomService meetingRoomService = new MeetingRoomServiceImpl(new InMemoryMeetingRoomRepository());
 
     private final Scanner scanner = new Scanner(System.in);
+    private final InputData inputData = new InputData();
 
     public static final String MENU = """ 
             0. Tárgyaló rögzítése
@@ -44,7 +45,7 @@ public class MeetingRoomController {
 
     public void start() {
         System.out.println(MENU);
-        int menuPoint = InputData.getDataFromUser("adj meg a menü pontot"
+        int menuPoint = inputData.getDataFromUser("adj meg a menü pontot"
                 , () -> Integer.parseInt(scanner.nextLine()));
         switch (menuPoint) {
             case 0:
@@ -82,28 +83,28 @@ public class MeetingRoomController {
     }
 
     private void searchByArea() {
-        int area = InputData.getDataFromUser("adj meg a területet"
+        int area = inputData.getDataFromUser("adj meg a területet"
                 , () -> Integer.parseInt(scanner.nextLine()));
         System.out.println(meetingRoomService.findBiggerAreaThen(area));
         start();
     }
 
     private void searchByNamePrefix() {
-        String name = InputData.getDataFromUser("Tárgyaló neve", () -> scanner.nextLine());
+        String name = inputData.getDataFromUser("Tárgyaló neve", () -> scanner.nextLine());
         System.out.println(meetingRoomService.findByNamePrefix(name));
         start();
     }
 
     private void searchByName() {
-        String name = InputData.getDataFromUser("Tárgyaló neve", () -> scanner.nextLine());
+        String name = inputData.getDataFromUser("Tárgyaló neve", () -> scanner.nextLine());
         System.out.println(meetingRoomService.findByName(name));
         start();
     }
 
     private void saveMeetingRoom() {
-        String name = InputData.getDataFromUser("Tárgyaló neve", () -> scanner.nextLine());
-        int width = InputData.getDataFromUser("Tárgyaló szélessége", () -> Integer.parseInt(scanner.nextLine()));
-        int length = InputData.getDataFromUser("Tárgyaló hosszúsága", () -> Integer.parseInt(scanner.nextLine()));
+        String name = inputData.getDataFromUser("Tárgyaló neve", () -> scanner.nextLine());
+        int width = inputData.getDataFromUser("Tárgyaló szélessége", () -> Integer.parseInt(scanner.nextLine()));
+        int length = inputData.getDataFromUser("Tárgyaló hosszúsága", () -> Integer.parseInt(scanner.nextLine()));
         MeetingRoom meetingRoom = MeetingRoom.builder().name(name).width(width).length(length).build();
         meetingRoomService.save(meetingRoom);
         start();
