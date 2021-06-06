@@ -71,7 +71,6 @@ class MeetingRoomServiceImplTest {
         List<String> testNames = meetingRoomService.findEverySecondSortedByName();
 
         assertEquals(2, testNames.size());
-        System.out.println(testNames);
         assertEquals(EEE, testNames.get(0));
         assertEquals("ZZZ", testNames.get(1));
     }
