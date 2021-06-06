@@ -6,19 +6,19 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class MeetingRoom extends BaseEntity {
+public class MeetingRoom {
 
+    private Long id;
     private String name;
     private int width;
     private int length;
 
     @Builder
     public MeetingRoom(Long id, String name, int width, int length) {
-        super(id);
+        this.id = id;
         this.name = name;
         this.width = width;
         this.length = length;
-
     }
 
     public int getArea() {
