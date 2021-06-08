@@ -24,9 +24,9 @@ public interface MeetingRoomRepository {
 
     List<MeetingRoom> findBiggerAreaThen(int area);
 
-//    MeetingRoom findByNameWithMeetings(String name);
-
     MeetingRoom saveWithMeeting(MeetingRoom meetingRoom);
+
+    List<MeetingRoom> findAllWithMeetings();
 
     void deleteAll();
 

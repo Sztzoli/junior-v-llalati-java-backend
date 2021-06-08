@@ -78,4 +78,9 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
     public MeetingRoom saveWithMeetings(MeetingRoom meetingRoom) {
         return meetingRoomRepository.saveWithMeeting(meetingRoom);
     }
+
+    @Override
+    public List<MeetingRoom> findAllWithMeetings() {
+        return meetingRoomRepository.findAllWithMeetings();
+    }
 }

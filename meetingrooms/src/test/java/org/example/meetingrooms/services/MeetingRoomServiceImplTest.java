@@ -151,4 +151,20 @@ class MeetingRoomServiceImplTest {
                 .containsExactly("reggeli","esti");
     }
 
+    @Test
+    void findAllWithMeetings() {
+        MeetingRoom meetingRoom = MeetingRoom.builder().name("test").width(1).length(1).build();
+        Meeting meeting = new Meeting("reggeli");
+        Meeting meeting1 = new Meeting("esti");
+        meetingRoom.addMeeting(meeting);
+        meetingRoom.addMeeting(meeting1);
+        meetingRoomService.saveWithMeetings(meetingRoom);
+
+        List<MeetingRoom> meetingRooms = meetingRoomService.findAllWithMeetings();
+
+        assertEquals(3, meetingRooms.size());
+        assertEquals(2,meetingRooms.get(2).getMeetings().size());
+        assertEquals("reggeli",meetingRooms.get(2).getMeetings().get(0).getName());
+    }
+
 }

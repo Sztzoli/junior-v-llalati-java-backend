@@ -72,4 +72,9 @@ public class InMemoryMeetingRoomRepository extends AbstractListRepository<Meetin
     public MeetingRoom saveWithMeeting(MeetingRoom meetingRoom) {
         return null;
     }
+
+    @Override
+    public List<MeetingRoom> findAllWithMeetings() {
+        return null;
+    }
 }

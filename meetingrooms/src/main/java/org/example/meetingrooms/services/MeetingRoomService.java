@@ -25,5 +25,7 @@ public interface MeetingRoomService {
 
     MeetingRoom saveWithMeetings(MeetingRoom meetingRoom);
 
+    List<MeetingRoom> findAllWithMeetings();
+
     void deleteAll();
 }

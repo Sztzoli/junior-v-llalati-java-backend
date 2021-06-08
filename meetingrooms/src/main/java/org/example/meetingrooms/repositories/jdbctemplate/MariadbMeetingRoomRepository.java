@@ -5,12 +5,16 @@ import org.example.meetingrooms.domain.MeetingRoom;
 import org.example.meetingrooms.repositories.MeetingRoomRepository;
 import org.flywaydb.core.Flyway;
 import org.mariadb.jdbc.MariaDbDataSource;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -123,6 +127,56 @@ public class MariadbMeetingRoomRepository implements MeetingRoomRepository {
     }
 
     @Override
+    public List<MeetingRoom> findAllWithMeetings() {
+        String sql = """
+                SELECT mt.id, mt.room_name, mt.width, mt.length, m.id, m.name, m.time_start, m.time_end, m.room_id
+                FROM meeting_rooms AS mt
+                LEFT JOIN meetings AS m ON mt.id = m.room_id
+                ORDER by mt.id""";
+        return jdbcTemplate.query(sql, resultSet -> {
+             List<MeetingRoom> list = new ArrayList<>();
+             Long idActual = 0L;
+             int counter = -1;
+             while (resultSet.next()) {
+                 Long id = resultSet.getLong("mt.id");
+                 MeetingRoom meetingRoom = new MeetingRoom();
+                 if (!idActual.equals(id)){
+                     meetingRoom.setId(id);
+                     meetingRoom.setName(resultSet.getString("mt.room_name"));
+                     meetingRoom.setWidth(resultSet.getInt("mt.width"));
+                     meetingRoom.setLength(resultSet.getInt("mt.length"));
+                     list.add(meetingRoom);
+                     idActual = id;
+                     counter++;
+                 }
+                 Long meetingId = resultSet.getLong("m.id");
+                 if (meetingId!=null) {
+                     LocalDateTime start = null;
+                     if (resultSet.getTimestamp("m.time_start") != null) {
+                         start = resultSet.getTimestamp("m.time_start").toLocalDateTime();
+                     }
+                     LocalDateTime end = null;
+                     if (resultSet.getTimestamp("m.time_end") != null) {
+                         end = resultSet.getTimestamp("m.time_end").toLocalDateTime();
+                     }
+                     MeetingRoom meetingRoom1 = list.get(counter);
+                     Meeting meeting = new Meeting();
+                     meeting.setId(meetingId);
+                     meeting.setName(resultSet.getString("m.name"));
+                     meeting.setStart(start);
+                     meeting.setEnd(end);
+                     meeting.setMeetingRoom(meetingRoom1);
+                     meetingRoom1.addMeeting(meeting);
+                 }
+
+             }
+             return list;
+         }
+         );
+    }
+
+
+    @Override
     public MeetingRoom saveWithMeeting(MeetingRoom meetingRoom) {
         Long roomId = saveAndGetId(meetingRoom);
         for (Meeting meeting :meetingRoom.getMeetings()) {
@@ -132,6 +186,9 @@ public class MariadbMeetingRoomRepository implements MeetingRoomRepository {
                     meeting.getEnd(),
                     roomId);
         }
+
+
+
 
         MeetingRoom savedRoom = jdbcTemplate
                 .queryForObject("select id, room_name, width, length from meeting_rooms where id = ?",
@@ -166,17 +223,6 @@ public class MariadbMeetingRoomRepository implements MeetingRoomRepository {
         return keyHolder.getKey().longValue();
     }
 
-    //    @Override
-//    public MeetingRoom findByNameWithMeetings(String name) {
-//        String sql = """
-//                SELECT mt.id, mt.room_name, mt.width, mt.length, m.id, m.name, m.time_start, m.time_end
-//                FROM meeting_rooms AS mt
-//                LEFT JOIN meetings AS m ON mt.id = m.room_id
-//                WHERE mt.room_name = ?""";
-//        return jdbcTemplate.query(sql,
-//                new Object[]{name},
-//                ())
-//    }
 
     @Override
     public void deleteAll() {

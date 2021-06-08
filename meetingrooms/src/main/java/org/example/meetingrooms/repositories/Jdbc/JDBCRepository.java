@@ -7,6 +7,7 @@ import org.flywaydb.core.Flyway;
 import org.mariadb.jdbc.MariaDbDataSource;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -127,7 +128,7 @@ public class JDBCRepository implements MeetingRoomRepository {
     private List<Meeting> getMeetings(Connection conn, Long roomId) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement("select id, name, time_start, time_end, room_id from meetings where room_id = ?")) {
             stmt.setLong(1, roomId);
-            try (ResultSet rs = stmt.executeQuery()){
+            try (ResultSet rs = stmt.executeQuery()) {
                 List<Meeting> meetings = new ArrayList<>();
                 while (rs.next()) {
                     meetings.add(new Meeting(
@@ -148,12 +149,12 @@ public class JDBCRepository implements MeetingRoomRepository {
             while (it.hasNext()) {
                 Meeting meeting = it.next();
                 Timestamp start = null;
-                if (meeting.getStart()!=null) {
-                    start=Timestamp.valueOf(meeting.getStart());
+                if (meeting.getStart() != null) {
+                    start = Timestamp.valueOf(meeting.getStart());
                 }
                 Timestamp end = null;
-                if (meeting.getEnd()!=null) {
-                    start=Timestamp.valueOf(meeting.getEnd());
+                if (meeting.getEnd() != null) {
+                    start = Timestamp.valueOf(meeting.getEnd());
                 }
                 stmt.setString(1, meeting.getName());
                 stmt.setTimestamp(2, start);
@@ -270,5 +271,59 @@ public class JDBCRepository implements MeetingRoomRepository {
                     .build());
         }
         return meetingRooms;
+    }
+
+    @Override
+    public List<MeetingRoom> findAllWithMeetings() {
+        String sql = """
+                SELECT mt.id, mt.room_name, mt.width, mt.length, m.id, m.name, m.time_start, m.time_end, m.room_id
+                FROM meeting_rooms AS mt
+                LEFT JOIN meetings AS m ON mt.id = m.room_id
+                ORDER by mt.id""";
+
+        try (Connection conn = dataSource.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet resultSet = stmt.executeQuery(sql)) {
+            List<MeetingRoom> list = new ArrayList<>();
+            Long idActual = 0L;
+            int counter = -1;
+            while (resultSet.next()) {
+                Long id = resultSet.getLong("mt.id");
+                MeetingRoom meetingRoom = new MeetingRoom();
+                if (!idActual.equals(id)) {
+                    meetingRoom.setId(id);
+                    meetingRoom.setName(resultSet.getString("mt.room_name"));
+                    meetingRoom.setWidth(resultSet.getInt("mt.width"));
+                    meetingRoom.setLength(resultSet.getInt("mt.length"));
+                    list.add(meetingRoom);
+                    idActual = id;
+                    counter++;
+                }
+                Long meetingId = resultSet.getLong("m.id");
+                if (meetingId != null) {
+                    LocalDateTime start = null;
+                    if (resultSet.getTimestamp("m.time_start") != null) {
+                        start = resultSet.getTimestamp("m.time_start").toLocalDateTime();
+                    }
+                    LocalDateTime end = null;
+                    if (resultSet.getTimestamp("m.time_end") != null) {
+                        end = resultSet.getTimestamp("m.time_end").toLocalDateTime();
+                    }
+                    MeetingRoom meetingRoom1 = list.get(counter);
+                    Meeting meeting = new Meeting();
+                    meeting.setId(meetingId);
+                    meeting.setName(resultSet.getString("m.name"));
+                    meeting.setStart(start);
+                    meeting.setEnd(end);
+                    meeting.setMeetingRoom(meetingRoom1);
+                    meetingRoom1.addMeeting(meeting);
+                }
+
+            }
+            return list;
+
+        } catch (SQLException sqlException) {
+            throw new IllegalArgumentException("Error by select", sqlException);
+        }
     }
 }
