@@ -73,4 +73,9 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
                 .map(MeetingRoom::toNiceString)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public MeetingRoom saveWithMeetings(MeetingRoom meetingRoom) {
+        return meetingRoomRepository.saveWithMeeting(meetingRoom);
+    }
 }

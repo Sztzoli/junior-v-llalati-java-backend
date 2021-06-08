@@ -1,5 +1,6 @@
 package org.example.meetingrooms.repositories;
 
+import org.example.meetingrooms.domain.Meeting;
 import org.example.meetingrooms.domain.MeetingRoom;
 
 import java.util.List;
@@ -22,6 +23,10 @@ public interface MeetingRoomRepository {
     Optional<MeetingRoom> findByNamePrefix(String name);
 
     List<MeetingRoom> findBiggerAreaThen(int area);
+
+//    MeetingRoom findByNameWithMeetings(String name);
+
+    MeetingRoom saveWithMeeting(MeetingRoom meetingRoom);
 
     void deleteAll();
 

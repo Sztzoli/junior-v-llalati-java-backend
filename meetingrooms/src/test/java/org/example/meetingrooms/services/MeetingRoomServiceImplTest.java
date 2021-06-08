@@ -1,14 +1,18 @@
 package org.example.meetingrooms.services;
 
+import org.example.meetingrooms.domain.Meeting;
 import org.example.meetingrooms.domain.MeetingRoom;
+import org.example.meetingrooms.repositories.Jdbc.JDBCRepository;
 import org.example.meetingrooms.repositories.inmemory.InMemoryMeetingRoomRepository;
 import org.example.meetingrooms.repositories.jdbctemplate.MariadbMeetingRoomRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MeetingRoomServiceImplTest {
@@ -17,7 +21,9 @@ class MeetingRoomServiceImplTest {
     public static final String EEE = "EEE";
     public static final String NiceStringTest = "Meeting room name:ÁÁÁ\nMeeting room width:1\nMeeting room length:1\nMeeting room area:1\n";
 
-    MeetingRoomService meetingRoomService = new MeetingRoomServiceImpl(new MariadbMeetingRoomRepository());
+//    MeetingRoomService meetingRoomService = new MeetingRoomServiceImpl(new MariadbMeetingRoomRepository());
+
+    MeetingRoomService meetingRoomService = new MeetingRoomServiceImpl(new JDBCRepository());
 
 //    MeetingRoomService meetingRoomService = new MeetingRoomServiceImpl(new InMemoryMeetingRoomRepository());
 
@@ -101,7 +107,7 @@ class MeetingRoomServiceImplTest {
     @Test
     void testFindByNamePrefix() {
         String testText = meetingRoomService.findByNamePrefix("ÁÁ");
-
+        System.out.println(testText);
         assertNotNull(testText);
         assertEquals(NiceStringTest, testText);
     }
@@ -127,6 +133,22 @@ class MeetingRoomServiceImplTest {
 
         assertEquals(0, list.size());
 
+    }
+
+    @Test
+    void saveWithRooms() {
+        MeetingRoom meetingRoom = MeetingRoom.builder().name("test").width(1).length(1).build();
+        Meeting meeting = new Meeting("reggeli");
+        Meeting meeting1 = new Meeting("esti");
+        meetingRoom.addMeeting(meeting);
+        meetingRoom.addMeeting(meeting1);
+
+        MeetingRoom saved = meetingRoomService.saveWithMeetings(meetingRoom);
+
+        assertThat(saved.getMeetings())
+                .hasSize(2)
+                .extracting(Meeting::getName)
+                .containsExactly("reggeli","esti");
     }
 
 }

@@ -67,4 +67,9 @@ public class InMemoryMeetingRoomRepository extends AbstractListRepository<Meetin
     public void deleteAll() {
         super.deleteAll();
     }
+
+    @Override
+    public MeetingRoom saveWithMeeting(MeetingRoom meetingRoom) {
+        return null;
+    }
 }

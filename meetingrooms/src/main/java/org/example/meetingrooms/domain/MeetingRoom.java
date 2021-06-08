@@ -2,6 +2,9 @@ package org.example.meetingrooms.domain;
 
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -13,6 +16,8 @@ public class MeetingRoom {
     private int width;
     private int length;
 
+    private List<Meeting> meetings = new ArrayList<>();
+
     @Builder
     public MeetingRoom(Long id, String name, int width, int length) {
         this.id = id;
@@ -23,6 +28,10 @@ public class MeetingRoom {
 
     public int getArea() {
         return width * length;
+    }
+
+    public void addMeeting(Meeting meeting) {
+        meetings.add(meeting);
     }
 
     public String toNiceString() {

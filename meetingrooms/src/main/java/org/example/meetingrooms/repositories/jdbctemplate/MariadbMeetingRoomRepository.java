@@ -1,5 +1,6 @@
 package org.example.meetingrooms.repositories.jdbctemplate;
 
+import org.example.meetingrooms.domain.Meeting;
 import org.example.meetingrooms.domain.MeetingRoom;
 import org.example.meetingrooms.repositories.MeetingRoomRepository;
 import org.flywaydb.core.Flyway;
@@ -9,10 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,20 +37,9 @@ public class MariadbMeetingRoomRepository implements MeetingRoomRepository {
 
     @Override
     public MeetingRoom save(MeetingRoom meetingRoom) {
-        String sql = "insert into meeting_rooms(room_name, width, length) values (?,?,?)";
-        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        jdbcTemplate.update(connection -> {
-                    PreparedStatement ps =
-                            connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                    ps.setString(1, meetingRoom.getName());
-                    ps.setInt(2, meetingRoom.getWidth());
-                    ps.setInt(3, meetingRoom.getLength());
-                    return ps;
-                }, keyHolder
-        );
 
-        Long id = keyHolder.getKey().longValue();
+        Long id = saveAndGetId(meetingRoom);
 
         return jdbcTemplate
                 .queryForObject("select id, room_name, width, length from meeting_rooms where id = ?",
@@ -118,7 +105,7 @@ public class MariadbMeetingRoomRepository implements MeetingRoomRepository {
 
         try {
             meetingRoom = jdbcTemplate.queryForObject(sql,
-                    new Object[]{name+"%"},
+                    new Object[]{name + "%"},
                     MariadbMeetingRoomRepository::mapRowMeetingRoom);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -129,16 +116,74 @@ public class MariadbMeetingRoomRepository implements MeetingRoomRepository {
     @Override
     public List<MeetingRoom> findBiggerAreaThen(int area) {
         String sql = "select id, room_name, width, length from meeting_rooms where (width * length) > ?";
-       return jdbcTemplate.query(sql,
-                    new Object[]{area},
-                    MariadbMeetingRoomRepository::mapRowMeetingRoom);
+        return jdbcTemplate.query(sql,
+                new Object[]{area},
+                MariadbMeetingRoomRepository::mapRowMeetingRoom);
 
     }
 
     @Override
+    public MeetingRoom saveWithMeeting(MeetingRoom meetingRoom) {
+        Long roomId = saveAndGetId(meetingRoom);
+        for (Meeting meeting :meetingRoom.getMeetings()) {
+            jdbcTemplate.update("insert into meetings (name, time_start, time_end, room_id) value (?,?,?,?)",
+                    meeting.getName(),
+                    meeting.getStart(),
+                    meeting.getEnd(),
+                    roomId);
+        }
+
+        MeetingRoom savedRoom = jdbcTemplate
+                .queryForObject("select id, room_name, width, length from meeting_rooms where id = ?",
+                        MariadbMeetingRoomRepository::mapRowMeetingRoom, new Object[]{roomId});
+        List<Meeting> savedMeetings = jdbcTemplate
+                .query("select id, name, time_start, time_end, room_id from meetings where room_id = ?",
+                                                (rs,i) -> new Meeting(
+                                rs.getLong("id"),
+                                rs.getString("name"),
+                                rs.getTimestamp("time_start").toLocalDateTime(),
+                                rs.getTimestamp("time_end").toLocalDateTime()
+                                ),
+                        new Object[]{roomId});
+       savedRoom.setMeetings(savedMeetings);
+       return savedRoom;
+    }
+
+    private Long saveAndGetId(MeetingRoom meetingRoom) {
+        String sql = "insert into meeting_rooms(room_name, width, length) values (?,?,?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+                    PreparedStatement ps =
+                            connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                    ps.setString(1, meetingRoom.getName());
+                    ps.setInt(2, meetingRoom.getWidth());
+                    ps.setInt(3, meetingRoom.getLength());
+                    return ps;
+                }, keyHolder
+        );
+
+        return keyHolder.getKey().longValue();
+    }
+
+    //    @Override
+//    public MeetingRoom findByNameWithMeetings(String name) {
+//        String sql = """
+//                SELECT mt.id, mt.room_name, mt.width, mt.length, m.id, m.name, m.time_start, m.time_end
+//                FROM meeting_rooms AS mt
+//                LEFT JOIN meetings AS m ON mt.id = m.room_id
+//                WHERE mt.room_name = ?""";
+//        return jdbcTemplate.query(sql,
+//                new Object[]{name},
+//                ())
+//    }
+
+    @Override
     public void deleteAll() {
         jdbcTemplate.update("delete from meeting_rooms");
+
     }
+
 
     private static MeetingRoom mapRowMeetingRoom(ResultSet rs, int i) throws SQLException {
         return MeetingRoom.builder()

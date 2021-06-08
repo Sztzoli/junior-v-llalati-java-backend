@@ -23,5 +23,7 @@ public interface MeetingRoomService {
 
     List<String> findBiggerAreaThen(int area);
 
+    MeetingRoom saveWithMeetings(MeetingRoom meetingRoom);
+
     void deleteAll();
 }
