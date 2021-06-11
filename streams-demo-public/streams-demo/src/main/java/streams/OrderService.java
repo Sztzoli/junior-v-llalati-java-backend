@@ -55,7 +55,7 @@ public class OrderService {
         return orders.stream().max((o1, o2) -> {
             double o1d = o1.getProducts().stream().mapToDouble(Product::getPrice).max().getAsDouble();
             double o2d = o2.getProducts().stream().mapToDouble(Product::getPrice).max().getAsDouble();
-            return (int) (o1d - o2d);
+            return (int) (o2d - o1d);
         });
     }
 

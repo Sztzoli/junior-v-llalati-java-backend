@@ -57,10 +57,10 @@ class OrderServiceTest {
 
     @Test
     void collectOrderWithCategoryTest() {
-        List<Order> orders = ordersService.collectOrdersWithProductCategory("book");
+        List<Order> orders = ordersService.collectOrdersWithProductCategory("Book");
 
         assertThat(orders)
-                .hasSize(2);
+                .hasSize(1);
 
     }
 
