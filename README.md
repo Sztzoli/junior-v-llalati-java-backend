@@ -6,4 +6,4 @@ Junior Vállalati Java Backend képzés
 
 ## stream-demo-public - órai feladat 2021.06.08
 
-## testgyak - Szoftvertesztelés Java platformon - gyakorlati feladat
+## locations-solution - Szoftvertesztelés Java platformon - gyakorlati feladat
