@@ -1,8 +1,12 @@
 package com.example.locations.commands;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UpdateLocationCommand {
 
     private String name;

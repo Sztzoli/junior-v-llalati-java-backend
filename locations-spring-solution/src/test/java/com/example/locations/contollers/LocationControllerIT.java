@@ -36,4 +36,11 @@ public class LocationControllerIT {
         LocationDto result = locationController.findLocationByName("Budapest");
         assertEquals("Budapest", result.getName());
     }
+
+    @Test
+    void findLocationById() {
+
+        LocationDto result = locationController.getLocationById(1L);
+        assertEquals("Budapest", result.getName());
+    }
 }
