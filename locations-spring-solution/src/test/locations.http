@@ -1,0 +1,39 @@
+GET http://localhost:8080/locations
+Accept: application/json
+
+###
+GET http://localhost:8080/locations/name/Budapest
+Accept: application/json
+
+###
+GET http://localhost:8080/locations/id/2
+Accept: application/json
+
+###
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Cegléd",
+  "lat": 50.0,
+  "lon": 30.0
+}
+###
+PUT http://localhost:8080/locations/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Nembudapest",
+  "lat": 50.0,
+  "lon": 30.0
+}
+###
+DELETE http://localhost:8080/locations/1
+
+###
+GET http://localhost:8080/locations/id/10
+Accept: application/json
+
+###
