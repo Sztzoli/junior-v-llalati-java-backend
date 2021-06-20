@@ -71,8 +71,15 @@ public class LocationService {
         locations.remove(location);
     }
 
+
+    public void deleteAllLocations() {
+        idGenerator = new AtomicLong();
+        locations.clear();
+    }
+
     private Location getLocationById(Long id) {
         return locations.stream().filter(location -> location.getId().equals(id)).findFirst()
                 .orElseThrow(() -> new LocationNotFoundException("Location not found by: " + id));
     }
+
 }

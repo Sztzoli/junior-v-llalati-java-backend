@@ -4,7 +4,6 @@ import com.example.locations.commands.CreateLocationCommand;
 import com.example.locations.commands.UpdateLocationCommand;
 import com.example.locations.converters.LocationDto;
 import com.example.locations.services.LocationService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,6 +32,9 @@ public class LocationControllerMockMvcIT {
 
     @Autowired
     MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper mapper;
 
     LocationDto budapest;
     LocationDto kecskemet;
@@ -74,18 +76,14 @@ public class LocationControllerMockMvcIT {
                 .andExpect(jsonPath("name", equalTo("Budapest")));
     }
 
-    String asJsonString(Object object) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(object);
-    }
-
     @Test
     void testPostLocation() throws Exception {
         when(locationService.createLocation(any())).thenReturn(budapest);
 
         mockMvc.perform(post("/locations")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(new CreateLocationCommand("Budapest", 1d, 1d)))
+                .content(mapper.writeValueAsString(new CreateLocationCommand("Budapest", 1d, 1d)))
+
         )
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("name", equalTo("Budapest")));
@@ -97,7 +95,7 @@ public class LocationControllerMockMvcIT {
 
         mockMvc.perform(put("/locations/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(new UpdateLocationCommand("Kecskemét", 1d, 1d)))
+                .content(mapper.writeValueAsString(new UpdateLocationCommand("Kecskemét", 1d, 1d)))
         )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("name", equalTo("Budapest")));
