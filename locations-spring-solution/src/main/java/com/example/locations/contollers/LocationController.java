@@ -6,6 +6,9 @@ import com.example.locations.commands.UpdateLocationCommand;
 import com.example.locations.converters.LocationDto;
 import com.example.locations.model.Location;
 import com.example.locations.services.LocationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/locations")
+@Tag(name = "Operations on locations")
 public class LocationController {
 
     private final LocationService locationService;
@@ -47,6 +51,8 @@ public class LocationController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "create new Location")
+    @ApiResponse(responseCode = "201", description = "location has been created")
     public LocationDto createLocation(@RequestBody CreateLocationCommand command) {
         return locationService.createLocation(command);
     }

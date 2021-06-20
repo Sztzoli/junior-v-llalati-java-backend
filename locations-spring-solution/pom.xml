@@ -45,6 +45,13 @@
             <scope>test</scope>
         </dependency>
 
+<!--        Swagger UI-->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.5.9</version>
+        </dependency>
+
 <!--        konvertál a entitások és a dto közt-->
         <dependency>
             <groupId>org.modelmapper</groupId>
