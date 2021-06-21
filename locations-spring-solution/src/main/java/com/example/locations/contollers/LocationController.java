@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/locations")
 @Tag(name = "Operations on locations")
+@CrossOrigin(origins = "http://localhost:4200")
 public class LocationController {
 
     private final LocationService locationService;
