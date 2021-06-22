@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class LocationController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "create new Location")
     @ApiResponse(responseCode = "201", description = "location has been created")
-    public LocationDto createLocation(@RequestBody CreateLocationCommand command) {
+    public LocationDto createLocation(@Valid @RequestBody CreateLocationCommand command) {
         return locationService.createLocation(command);
     }
 
@@ -70,7 +71,7 @@ public class LocationController {
     @Operation(summary = "update a Location by Id")
     public LocationDto updateLocation(
             @Parameter(description = "id of location", example = "1")
-            @PathVariable Long id, @RequestBody UpdateLocationCommand command) {
+            @PathVariable Long id, @Valid @RequestBody UpdateLocationCommand command) {
         return locationService.updateLocation(id, command);
     }
 

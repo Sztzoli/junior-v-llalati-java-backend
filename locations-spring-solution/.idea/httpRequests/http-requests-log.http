@@ -1,0 +1,287 @@
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "",
+  "lat": -901.0,
+  "lon": 181.0
+}
+
+<> 2021-06-22T113325.400.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "zolii",
+  "lat": -90.0,
+  "lon": 181.0
+}
+
+<> 2021-06-22T113312.400.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "zolii",
+  "lat": -90.0,
+  "lon": 181.0
+}
+
+<> 2021-06-22T112709.400.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "zolii",
+  "lat": -90.0,
+  "lon": 181.0
+}
+
+<> 2021-06-22T112127.400.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "zolii",
+  "lat": -90.0,
+  "lon": 30.0
+}
+
+<> 2021-06-22T112117.201.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "zolii",
+  "lat": -91.0,
+  "lon": 30.0
+}
+
+<> 2021-06-22T112108.400.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "",
+  "lat": -91.0,
+  "lon": 30.0
+}
+
+<> 2021-06-22T112058.400.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "",
+  "lat": -91.0,
+  "lon": 30.0
+}
+
+<> 2021-06-22T105258.400.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Cegléd",
+  "lat": -91.0,
+  "lon": 30.0
+}
+
+<> 2021-06-22T105239.400.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Cegléd",
+  "lat": -90.0,
+  "lon": 30.0
+}
+
+<> 2021-06-22T105234.201.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Cegléd",
+  "lat": -90.0,
+  "lon": 30.0
+}
+
+<> 2021-06-22T104220.201.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Cegléd",
+  "lat": -91.0,
+  "lon": 30.0
+}
+
+<> 2021-06-22T104205.400.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "",
+  "lat": -91.0,
+  "lon": 30.0
+}
+
+<> 2021-06-22T104144.400.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "",
+  "lat": -91.0,
+  "lon": 30.0
+}
+
+<> 2021-06-22T104049.201.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Cegléd",
+  "lat": -91.0,
+  "lon": 30.0
+}
+
+<> 2021-06-22T104020.201.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Cegléd",
+  "lat": -90.0,
+  "lon": 30.0
+}
+
+<> 2021-06-22T104014.201.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Cegléd",
+  "lat": -90.0,
+  "lon": 30.0
+}
+
+<> 2021-06-22T103718.201.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Cegléd",
+  "lat": 90.0,
+  "lon": 30.0
+}
+
+<> 2021-06-22T103705.201.json
+
+###
+
+GET http://localhost:8080/locations/id/2
+Accept: application/json
+
+<> 2021-06-20T132014.200.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Cegléd",
+  "lat": 50.0,
+  "lon": 30.0
+}
+
+<> 2021-06-20T131958.201.json
+
+###
+
+POST http://localhost:8080/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Cegléd",
+  "lat": 50.0,
+  "lon": 30.0
+}
+
+<> 2021-06-18T134915.201.json
+
+###
+
