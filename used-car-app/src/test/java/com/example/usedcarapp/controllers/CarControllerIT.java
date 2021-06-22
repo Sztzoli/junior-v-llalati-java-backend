@@ -1,6 +1,5 @@
 package com.example.usedcarapp.controllers;
 
-import com.example.usedcarapp.contollers.CarController;
 import com.example.usedcarapp.model.Car;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +11,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
+
 
 @SpringBootTest
 public class CarControllerIT {

@@ -1,4 +1,4 @@
-package com.example.usedcarapp.contollers;
+package com.example.usedcarapp.controllers;
 
 import com.example.usedcarapp.model.Car;
 import com.example.usedcarapp.services.CarService;
