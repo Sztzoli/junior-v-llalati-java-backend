@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,10 +23,10 @@ public class Activity {
 //    @TableGenerator(name = "Act_Gen",table = "act_id_gen",pkColumnName = "id_gen",pkColumnValue = "id_val")
     private Long id;
 
-    @Column(name = "start_time",nullable = false)
+    @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
 
-    @Column(name = "description",nullable = false,length = 200)
+    @Column(name = "description", nullable = false, length = 200)
     private String desc;
 
     @CreationTimestamp
@@ -41,6 +42,11 @@ public class Activity {
     @ElementCollection
     private List<String> labels;
 
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            mappedBy = "activity")
+    @OrderBy(value = "time")
+    private List<TrackPoint> trackPoints;
+
     public Activity(LocalDateTime startTime, String desc, Type type) {
         this.startTime = startTime;
         this.desc = desc;
@@ -52,5 +58,13 @@ public class Activity {
         this.desc = desc;
         this.type = type;
         this.labels = labels;
+    }
+
+    public void addTrackPoint(TrackPoint trackPoint) {
+        if (trackPoints == null) {
+            trackPoints = new ArrayList<>();
+        }
+        trackPoint.setActivity(this);
+        this.trackPoints.add(trackPoint);
     }
 }

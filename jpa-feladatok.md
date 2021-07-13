@@ -6,7 +6,7 @@
 * [x] Azonosítógenerálás
 * [x] Entitások életciklusa
 * [x] Többértékű attribútumok
-* [ ] Kapcsolatok
+* [x] Kapcsolatok
 * [ ] Több-több kapcsolatok
 * [ ] Entitások mapekben
 * [ ] Beágyazott objektumok és másodlagos tábla

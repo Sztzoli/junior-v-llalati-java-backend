@@ -52,4 +52,23 @@ public class ActivityDao {
         return activity;
     }
 
+    public Activity addTrackPointsToActivity(Long id, TrackPoint trackPoint) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        em.getTransaction().begin();
+        Activity activity = em.find(Activity.class, id);
+        activity.addTrackPoint(trackPoint);
+        em.getTransaction().commit();
+        em.close();
+        return activity;
+    }
+
+    public Activity findActivityByIdWithTrackPoints(long id) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        Activity activity = em.createQuery("select a from Activity a left join fetch a.trackPoints where a.id = :id order by a.desc", Activity.class)
+                .setParameter("id", id)
+                .getSingleResult();
+        em.close();
+        return activity;
+    }
+
 }
