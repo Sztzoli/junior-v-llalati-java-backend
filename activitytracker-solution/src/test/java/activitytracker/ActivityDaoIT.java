@@ -28,4 +28,14 @@ class ActivityDaoIT {
 
         assertEquals("description", loadedActivity.getDesc());
     }
+
+    @Test
+    void update() {
+        Activity activity = new Activity(LocalDateTime.now(),"description", Type.BIKING);
+        activityDao.saveActivity(activity);
+        activityDao.updateActivity(activity.getId(), "new description");
+        Activity loadedActivity = activityDao.findActivityById(activity.getId());
+
+        assertEquals("new description", loadedActivity.getDesc());
+    }
 }

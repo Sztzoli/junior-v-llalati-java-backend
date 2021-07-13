@@ -32,4 +32,13 @@ public class ActivityDao {
         em.close();
         return resultList;
     }
+
+    public void updateActivity(long id, String desc) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        em.getTransaction().begin();
+        Activity activity = em.find(Activity.class, id);
+        activity.setDesc(desc);
+        em.getTransaction().commit();
+        em.close();
+    }
 }

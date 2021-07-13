@@ -3,6 +3,8 @@ package activitytracker;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,9 +16,9 @@ import java.time.LocalDateTime;
 public class Activity {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GeneratedValue(generator = "Act_Gen")
-    @TableGenerator(name = "Act_Gen",table = "act_id_gen",pkColumnName = "id_gen",pkColumnValue = "id_val")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(generator = "Act_Gen")
+//    @TableGenerator(name = "Act_Gen",table = "act_id_gen",pkColumnName = "id_gen",pkColumnValue = "id_val")
     private Long id;
 
     @Column(name = "start_time",nullable = false)
@@ -24,6 +26,12 @@ public class Activity {
 
     @Column(name = "description",nullable = false,length = 200)
     private String desc;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updateAt;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)

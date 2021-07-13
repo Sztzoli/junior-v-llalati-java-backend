@@ -4,7 +4,7 @@
 * [x] Architektúra és integrációs tesztelés
 * [x] Entitások konfigurálása
 * [x] Azonosítógenerálás
-* [ ] Entitások életciklusa
+* [x] Entitások életciklusa
 * [ ] Többértékű attribútumok
 * [ ] Kapcsolatok
 * [ ] Több-több kapcsolatok
