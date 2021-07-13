@@ -5,6 +5,6 @@
 * [ ] Matematikusok (validáció)
 * [ ] Terápia
 * [ ] Bank
-* [ ] Fighter game
+* [x] Fighter game
 * [ ] Kalózok
 * [ ] Légitársaság
