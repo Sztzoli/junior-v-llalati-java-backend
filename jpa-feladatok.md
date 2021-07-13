@@ -5,7 +5,7 @@
 * [x] Entitások konfigurálása
 * [x] Azonosítógenerálás
 * [x] Entitások életciklusa
-* [ ] Többértékű attribútumok
+* [x] Többértékű attribútumok
 * [ ] Kapcsolatok
 * [ ] Több-több kapcsolatok
 * [ ] Entitások mapekben

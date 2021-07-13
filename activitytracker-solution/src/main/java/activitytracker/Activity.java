@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -37,9 +38,19 @@ public class Activity {
     @Column(nullable = false, length = 20)
     private Type type;
 
+    @ElementCollection
+    private List<String> labels;
+
     public Activity(LocalDateTime startTime, String desc, Type type) {
         this.startTime = startTime;
         this.desc = desc;
         this.type = type;
+    }
+
+    public Activity(LocalDateTime startTime, String desc, Type type, List<String> labels) {
+        this.startTime = startTime;
+        this.desc = desc;
+        this.type = type;
+        this.labels = labels;
     }
 }
