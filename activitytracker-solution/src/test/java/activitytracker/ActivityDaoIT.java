@@ -16,11 +16,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class ActivityDaoIT {
 
     ActivityDao activityDao;
+    AreaDao areaDao;
 
     @BeforeEach
     void setUp() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pu");
         activityDao = new ActivityDao(factory);
+        areaDao = new AreaDao(factory);
     }
 
     @Test
@@ -63,6 +65,20 @@ class ActivityDaoIT {
 
         assertEquals(1, loadedActivity.getTrackPoints().get(0).getLat());
     }
+
+    @Test
+    void getActivityWithAreas() {
+        Activity activity = new Activity(LocalDateTime.now(), "description", Type.BIKING);
+        Area area = new Area("area");
+        activityDao.saveActivity(activity);
+        area.addActivity(activity);
+        areaDao.save(area);
+        Activity loadedActivity = activityDao.findActivityByIdWithArea(activity.getId());
+
+        assertEquals("area",loadedActivity.getAreas().get(0).getName());
+    }
+
+
 
 
 }

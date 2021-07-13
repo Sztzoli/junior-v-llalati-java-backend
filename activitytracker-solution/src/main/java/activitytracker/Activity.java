@@ -47,6 +47,9 @@ public class Activity {
     @OrderBy(value = "time")
     private List<TrackPoint> trackPoints;
 
+    @ManyToMany(mappedBy = "activities")
+    private List<Area> areas = new ArrayList<>();
+
     public Activity(LocalDateTime startTime, String desc, Type type) {
         this.startTime = startTime;
         this.desc = desc;

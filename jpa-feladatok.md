@@ -7,7 +7,7 @@
 * [x] Entitások életciklusa
 * [x] Többértékű attribútumok
 * [x] Kapcsolatok
-* [ ] Több-több kapcsolatok
+* [x] Több-több kapcsolatok
 * [ ] Entitások mapekben
 * [ ] Beágyazott objektumok és másodlagos tábla
 * [ ] Öröklődés
