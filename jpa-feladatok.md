@@ -2,7 +2,7 @@
 
 * [x] Egyszerű mentés és lekérdezés JPA-val
 * [x] Architektúra és integrációs tesztelés
-* [ ] Entitások konfigurálása
+* [x] Entitások konfigurálása
 * [ ] Azonosítógenerálás
 * [ ] Entitások életciklusa
 * [ ] Többértékű attribútumok
