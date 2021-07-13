@@ -1,6 +1,6 @@
 # JPA feladatok
 
-* [ ] Egyszerű mentés és lekérdezés JPA-val
+* [x] Egyszerű mentés és lekérdezés JPA-val
 * [ ] Architektúra és integrációs tesztelés
 * [ ] Entitások konfigurálása
 * [ ] Azonosítógenerálás
