@@ -8,7 +8,7 @@
 * [x] Többértékű attribútumok
 * [x] Kapcsolatok
 * [x] Több-több kapcsolatok
-* [ ] Entitások mapekben
+* [x] Entitások mapekben
 * [ ] Beágyazott objektumok és másodlagos tábla
 * [ ] Öröklődés
 * [ ] Lekérdezések
