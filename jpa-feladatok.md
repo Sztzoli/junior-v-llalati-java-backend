@@ -11,7 +11,7 @@
 * [x] Entitások mapekben
 * [x] Beágyazott objektumok és másodlagos tábla
 * [ ] Öröklődés
-* [ ] Lekérdezések
+* [x] Lekérdezések
 * [ ] Haladó lekérdezések
 * [ ] Bulk műveletek
 * [ ] JPA Spring Boottal
