@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -96,6 +97,17 @@ public class ActivityDao {
                 .getResultList();
         em.close();
         return result;
+    }
+
+    public void removeActivitiesByDateAndType(LocalDateTime afterThis, Type type) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        em.getTransaction().begin();
+        em.createQuery("delete from Activity a where a.startTime > :time and a.type = :type")
+                .setParameter("time",afterThis)
+                .setParameter("type", type)
+                .executeUpdate();
+        em.getTransaction().commit();
+        em.close();
     }
 
 }

@@ -13,6 +13,6 @@
 * [ ] Öröklődés
 * [x] Lekérdezések
 * [x] Haladó lekérdezések
-* [ ] Bulk műveletek
+* [x] Bulk műveletek
 * [ ] JPA Spring Boottal
 * [ ] JPA Java EE-vel

@@ -106,6 +106,22 @@ class ActivityDaoIT {
         assertEquals(2L, trackPointCountByActivity.get(0));
     }
 
+    @Test
+    void removeActivitiesByDateAndType() {
+        LocalDateTime time = LocalDateTime.of(2021,1,1,12,0);
+        for (int i = 0; i < 10; i++) {
+            activityDao.saveActivity(new Activity(time,"desc "+i,Type.BIKING,1,1));
+            time = time.plusDays(1);
+        }
+        activityDao.removeActivitiesByDateAndType(LocalDateTime.of(2021,1,5,12,0),Type.BIKING);
+
+        List<Activity> activities = activityDao.listActivities();
+
+        assertEquals(5,activities.size());
+        assertEquals("desc 4",activities.get(activities.size()-1).getDesc());
+
+    }
+
 
 
 }
