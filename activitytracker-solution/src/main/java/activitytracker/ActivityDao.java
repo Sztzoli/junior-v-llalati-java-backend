@@ -33,7 +33,7 @@ public class ActivityDao {
         return resultList;
     }
 
-      public void updateActivity(long id, String desc) {
+    public void updateActivity(long id, String desc) {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         Activity activity = em.find(Activity.class, id);
@@ -87,6 +87,15 @@ public class ActivityDao {
                 .getSingleResult();
         em.close();
         return activity;
+    }
+
+    public List<Object[]> findTrackPointCountByActivity(Activity activity) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        List<Object[]> result = em.createQuery("select count(t.activity) from TrackPoint t where t.activity.id = :id", Object[].class)
+                .setParameter("id", activity.getId())
+                .getResultList();
+        em.close();
+        return result;
     }
 
 }

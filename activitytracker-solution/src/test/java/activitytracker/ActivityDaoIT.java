@@ -5,13 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ActivityDaoIT {
 
@@ -94,6 +93,19 @@ class ActivityDaoIT {
         Activity loadedActivity = activityDao.findActivityById(activity.getId());
         assertEquals(10, activity.getDistance());
     }
+
+    @Test
+    void findTrackPointCountByActivity(){
+        Activity activity = new Activity(LocalDateTime.now(), "description", Type.BIKING, 10,120);
+        activityDao.saveActivity(activity);
+        activityDao.addTrackPointsToActivity(activity.getId(), new TrackPoint(activity.getStartTime().toLocalDate(),1,-1));
+        activityDao.addTrackPointsToActivity(activity.getId(), new TrackPoint(activity.getStartTime().toLocalDate(),2,-2));
+        List<Object[]> trackPointCountByActivity = activityDao.findTrackPointCountByActivity(activity);
+
+        assertEquals(1, trackPointCountByActivity.size());
+        assertEquals(2L, trackPointCountByActivity.get(0));
+    }
+
 
 
 }

@@ -12,7 +12,7 @@
 * [x] Beágyazott objektumok és másodlagos tábla
 * [ ] Öröklődés
 * [x] Lekérdezések
-* [ ] Haladó lekérdezések
+* [x] Haladó lekérdezések
 * [ ] Bulk műveletek
 * [ ] JPA Spring Boottal
 * [ ] JPA Java EE-vel
