@@ -15,6 +15,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Table(name = "activities")
+@SecondaryTable(name = "activity_details",
+        pkJoinColumns =@PrimaryKeyJoinColumn(name = "act_id"))
 public class Activity {
 
     @Id
@@ -50,6 +52,12 @@ public class Activity {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Area> areas = new ArrayList<>();
 
+    @Column(table = "activity_details")
+    private int distance;
+
+    @Column(table = "activity_details")
+    private int duration;
+
     public Activity(LocalDateTime startTime, String desc, Type type) {
         this.startTime = startTime;
         this.desc = desc;
@@ -61,6 +69,14 @@ public class Activity {
         this.desc = desc;
         this.type = type;
         this.labels = labels;
+    }
+
+    public Activity(LocalDateTime startTime, String desc, Type type, int distance, int duration) {
+        this.startTime = startTime;
+        this.desc = desc;
+        this.type = type;
+        this.distance = distance;
+        this.duration = duration;
     }
 
     public void addTrackPoint(TrackPoint trackPoint) {

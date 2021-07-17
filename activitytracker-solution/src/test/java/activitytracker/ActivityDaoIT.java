@@ -86,5 +86,14 @@ class ActivityDaoIT {
         activityDao.addAreaToActivity(activity.getId(),area);
     }
 
+    @Test
+    void saveToSecondaryTable() {
+        Activity activity = new Activity(LocalDateTime.now(), "description", Type.BIKING, 10,120);
+        activityDao.saveActivity(activity);
+
+        Activity loadedActivity = activityDao.findActivityById(activity.getId());
+        assertEquals(10, activity.getDistance());
+    }
+
 
 }
