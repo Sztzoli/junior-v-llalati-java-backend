@@ -70,15 +70,21 @@ class ActivityDaoIT {
     void getActivityWithAreas() {
         Activity activity = new Activity(LocalDateTime.now(), "description", Type.BIKING);
         Area area = new Area("area");
+//        areaDao.save(area);
+        activity.addArea(area);
         activityDao.saveActivity(activity);
-        area.addActivity(activity);
-        areaDao.save(area);
         Activity loadedActivity = activityDao.findActivityByIdWithArea(activity.getId());
 
         assertEquals("area",loadedActivity.getAreas().get(0).getName());
     }
 
-
+    @Test
+    void addAreaToActivity() {
+        Activity activity = new Activity(LocalDateTime.now(), "description", Type.BIKING);
+        Area area = new Area("area");
+        activityDao.saveActivity(activity);
+        activityDao.addAreaToActivity(activity.getId(),area);
+    }
 
 
 }

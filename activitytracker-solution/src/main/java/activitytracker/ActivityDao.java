@@ -33,7 +33,7 @@ public class ActivityDao {
         return resultList;
     }
 
-    public void updateActivity(long id, String desc) {
+      public void updateActivity(long id, String desc) {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         Activity activity = em.find(Activity.class, id);
@@ -56,6 +56,16 @@ public class ActivityDao {
         em.getTransaction().begin();
         Activity activity = em.find(Activity.class, id);
         activity.addTrackPoint(trackPoint);
+        em.getTransaction().commit();
+        em.close();
+        return activity;
+    }
+
+    public Activity addAreaToActivity(Long id, Area area) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        em.getTransaction().begin();
+        Activity activity = em.find(Activity.class, id);
+        activity.addArea(area);
         em.getTransaction().commit();
         em.close();
         return activity;
