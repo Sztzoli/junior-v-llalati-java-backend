@@ -90,10 +90,9 @@ public class ActivityDao {
         return activity;
     }
 
-    public List<Object[]> findTrackPointCountByActivity(Activity activity) {
+    public List<Object[]> findTrackPointCountByActivity() {
         EntityManager em = entityManagerFactory.createEntityManager();
-        List<Object[]> result = em.createQuery("select count(t.activity) from TrackPoint t where t.activity.id = :id", Object[].class)
-                .setParameter("id", activity.getId())
+        List<Object[]> result = em.createQuery("select a.desc, size(a.trackPoints) from Activity a", Object[].class)
                 .getResultList();
         em.close();
         return result;

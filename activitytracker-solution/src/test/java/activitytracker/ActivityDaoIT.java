@@ -74,7 +74,7 @@ class ActivityDaoIT {
         activityDao.saveActivity(activity);
         Activity loadedActivity = activityDao.findActivityByIdWithArea(activity.getId());
 
-        assertEquals("area",loadedActivity.getAreas().get(0).getName());
+        assertEquals("area", loadedActivity.getAreas().get(0).getName());
     }
 
     @Test
@@ -82,12 +82,12 @@ class ActivityDaoIT {
         Activity activity = new Activity(LocalDateTime.now(), "description", Type.BIKING);
         Area area = new Area("area");
         activityDao.saveActivity(activity);
-        activityDao.addAreaToActivity(activity.getId(),area);
+        activityDao.addAreaToActivity(activity.getId(), area);
     }
 
     @Test
     void saveToSecondaryTable() {
-        Activity activity = new Activity(LocalDateTime.now(), "description", Type.BIKING, 10,120);
+        Activity activity = new Activity(LocalDateTime.now(), "description", Type.BIKING, 10, 120);
         activityDao.saveActivity(activity);
 
         Activity loadedActivity = activityDao.findActivityById(activity.getId());
@@ -95,33 +95,35 @@ class ActivityDaoIT {
     }
 
     @Test
-    void findTrackPointCountByActivity(){
-        Activity activity = new Activity(LocalDateTime.now(), "description", Type.BIKING, 10,120);
+    void findTrackPointCountByActivity() {
+        Activity activity = new Activity(LocalDateTime.now(), "description", Type.BIKING, 10, 120);
+        Activity activity1 = new Activity(LocalDateTime.now(), "description1", Type.BASKETBALL, 10, 120);
         activityDao.saveActivity(activity);
-        activityDao.addTrackPointsToActivity(activity.getId(), new TrackPoint(activity.getStartTime().toLocalDate(),1,-1));
-        activityDao.addTrackPointsToActivity(activity.getId(), new TrackPoint(activity.getStartTime().toLocalDate(),2,-2));
-        List<Object[]> trackPointCountByActivity = activityDao.findTrackPointCountByActivity(activity);
-
-        assertEquals(1, trackPointCountByActivity.size());
-        assertEquals(2L, trackPointCountByActivity.get(0));
+        activityDao.saveActivity(activity1);
+        activityDao.addTrackPointsToActivity(activity.getId(), new TrackPoint(activity.getStartTime().toLocalDate(), 1, -1));
+        activityDao.addTrackPointsToActivity(activity.getId(), new TrackPoint(activity.getStartTime().toLocalDate(), 2, -2));
+        activityDao.addTrackPointsToActivity(activity1.getId(), new TrackPoint(activity.getStartTime().toLocalDate(), 2, -2));
+        List<Object[]> trackPointCountByActivity = activityDao.findTrackPointCountByActivity();
+        assertEquals(2, trackPointCountByActivity.size());
+        assertEquals("description", trackPointCountByActivity.get(0)[0]);
+        assertEquals(2, trackPointCountByActivity.get(0)[1]);
     }
 
     @Test
     void removeActivitiesByDateAndType() {
-        LocalDateTime time = LocalDateTime.of(2021,1,1,12,0);
+        LocalDateTime time = LocalDateTime.of(2021, 1, 1, 12, 0);
         for (int i = 0; i < 10; i++) {
-            activityDao.saveActivity(new Activity(time,"desc "+i,Type.BIKING,1,1));
+            activityDao.saveActivity(new Activity(time, "desc " + i, Type.BIKING, 1, 1));
             time = time.plusDays(1);
         }
-        activityDao.removeActivitiesByDateAndType(LocalDateTime.of(2021,1,5,12,0),Type.BIKING);
+        activityDao.removeActivitiesByDateAndType(LocalDateTime.of(2021, 1, 5, 12, 0), Type.BIKING);
 
         List<Activity> activities = activityDao.listActivities();
 
-        assertEquals(5,activities.size());
-        assertEquals("desc 4",activities.get(activities.size()-1).getDesc());
+        assertEquals(5, activities.size());
+        assertEquals("desc 4", activities.get(activities.size() - 1).getDesc());
 
     }
-
 
 
 }
