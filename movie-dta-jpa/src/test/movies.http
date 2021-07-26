@@ -1,0 +1,20 @@
+GET localhost:8080/api/movies
+Accept: application/json
+
+###
+POST localhost:8080/api/movies
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title" : "Movie1"
+}
+
+###
+POST localhost:8080/api/movies/1/rating
+Content-Type: application/json
+Accept: application/json
+
+{
+  "rating" : 5
+}
