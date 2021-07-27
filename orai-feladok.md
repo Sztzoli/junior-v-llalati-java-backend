@@ -11,3 +11,4 @@ Kérlek jelöld be, hogy melyik gyakorlati feladatokat oldottad meg!
 * [x] 2021.06.25. - Bicikli sharing
 * [x] 2021.07.13. - Nav-app
 * [x] 2021.07.26. - jpa-movie-app
+* [x] 2021.07.27. - data-jpa-library-app
